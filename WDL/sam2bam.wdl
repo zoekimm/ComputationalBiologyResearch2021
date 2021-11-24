@@ -1,33 +1,37 @@
+version 1.0 
 workflow sam2bam {
-    input {
-        File samfile
-    }
 
-    call STARalign {
+    input {
+    File input1
+    }
+    
+    call convert { 
         input:
-            sam = samfile
+        samfile = input1
     }
     
     output {
-        File output = tobam.bamfile
+        File outputfile = map.bamfile
     }
-
 }
 
-task tobam {
+task convert {
+
     input {
-        File sam
+    File samfile 
     }
 
     command <<<
-		samtools view -S -b "~{sam}" > sample.bam
+    samtools view -S -b "~{samfile}" > sample.bam
     >>>
-    
+
     runtime {
-        docker : "cbredocker:latest"
+    docker : "cbredocker:latest"
     }
 
     output {
-        File bamfile = "sample.bam"
-    }
+    File bamfile = "sample.bam"
+    } 
 }
+
+
