@@ -11,7 +11,7 @@ workflow sam2bam {
     }
     
     output {
-        File outputfile = map.bamfile
+        File outputfile = convert.bamfile
     }
 }
 
