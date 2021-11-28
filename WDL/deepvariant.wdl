@@ -1,3 +1,5 @@
+#https://github.com/google/deepvariant
+
 version 1.0 
 workflow deepvaraint {
 
@@ -7,6 +9,9 @@ workflow deepvaraint {
         File bamfile
         #File baifile
         String outputfilename
+        String memory 
+        Int time
+        String dockerImage = "google/deepvariant"
     }
     
     call run_dv { 
@@ -16,6 +21,9 @@ workflow deepvaraint {
             inputbam = bamfile,
             #inputbai = baifile,
             vcffile = outputfilename
+            memory = memory,
+            time = time,
+            dockerImage = dockerImage
     }
     
     output {
@@ -31,6 +39,9 @@ task run_dv {
     File inputbam
     #File inputbai
     String vcffile
+    String memory 
+    Int time
+    String dockerImage 
     }
 
     command <<<
@@ -44,7 +55,9 @@ task run_dv {
     >>>
 
     runtime {
-        docker : "mkim55/deep-variant:latest"
+        memory: memory
+        time_minutes: time
+        docker: dockerImage #"google/deepvariant"
     }
 
     output {
