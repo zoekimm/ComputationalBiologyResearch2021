@@ -1,11 +1,12 @@
 version 1.0
 workflow annovar3 {
-
+  input {
   File vcffile #vcf input 
   String ref_name #CHM13 GrCH38
   File annovarTAR
   String annovar_protocols
   String annovar_operation
+  }
   
 call annovarConsensus {
       input:
